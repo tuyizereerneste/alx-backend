@@ -17,7 +17,7 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
-babel.init_app(app, locale_selector=get_locale)
+babel = Babel(app)
 
 
 @babel.localeselector
@@ -34,7 +34,7 @@ def index() -> str:
     """
     Function that Handles / route
     """
-    return render_template('2-index.html')
+    return render_template('3-index.html')
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
-class Config:
+class Config(object):
     """
     Configuration for Babel
     """
@@ -17,24 +17,26 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
-babel.init_app(app, locale_selector=get_locale)
+babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale():
     """
-    Function that Select the best language
-    match based on supported languages
+    Select and return best language match based on supported languages
     """
+    loc = request.args.get('locale')
+    if loc in app.config['LANGUAGES']:
+        return loc
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/', strict_slashes=False)
 def index() -> str:
     """
-    Function that Handles / route
+    Handles / route
     """
-    return render_template('2-index.html')
+    return render_template('4-index.html')
 
 
 if __name__ == "__main__":
